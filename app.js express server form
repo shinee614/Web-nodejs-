@@ -11,8 +11,24 @@ app.get('/newsListPage', function(req, res) {
 });
 
 //post 방식
-app.post('/newsListPage', function(req, res) {
-  // res.send("success")       //string 출력
-  res.sendfile("newsList.html");   //파일 출력
-  console.log(req.body.a, req.body.b)
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({limit:'50mb', extended: false}));
+app.use(bodyParser.json({limit: '50mb'}));
+
+app.post('/insert', function(req, res) {
+  var titleInput = req.body.title
+  var contentInput = req.body.content
+  //var updateQuery = "update testtable SET name = " + " '" + nameInput + " ' " + " where no=" + numInput
+  var insertQuery = `insert into news (title,content) values ("${titleInput}","${contentInput}")`
+  //console.log(updateQuery);
+  connection.query(insertQuery,
+
+    function(err, rows, fields) {
+
+      if (err) throw err;
+      // 쿼리 결과 가져온거
+      console.log(titleInput, contentInput);
+      res.send(titleInput + "," + contentInput + " insert success");
+
+    });
 });
