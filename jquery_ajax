@@ -2,12 +2,30 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 //ajax 
+//get 방식
 <script>
       $.ajax({
         url:'http://localhost/sum',
         data: {
           num1: $("#inputValue1").val(),
           num2: $("#inputValue2").val()
+        },
+        success:function(response){
+          console.log(response);
+            $("#outputArea").html(response)   //body에서 <span> 부분에 화면 뿌릴 때 
+         // -> <span id="outputArea"> 부분    // .html()은 새로고침할 때마다 변경 됨
+        }                                     // .append()는 내용이 추가되고 다 쌓여서 보여짐
+      });
+</script>
+
+//post 방식
+<script>
+      $.ajax({
+        url:'http://localhost/sum',
+        type:'POST',
+        data: {
+          a:1,
+          b:2
         },
         success:function(response){
           console.log(response);
