@@ -11,8 +11,8 @@
         },
         success:function(response){
           console.log(response);
-            $("#outputArea").html(response)   //body에서 <span>부분에 화면 뿌릴 때 
-            //
-        }
+            $("#outputArea").html(response)   //body에서 <span> 부분에 화면 뿌릴 때 
+         // -> <span id="outputArea"> 부분    // .html()은 새로고침할 때마다 변경 됨
+        }                                     // .append()는 내용이 추가되고 다 쌓여서 보여짐
       });
 </script>
