@@ -20,7 +20,7 @@
 
 //post 방식
 <script>
-  $("#addBtn").click(function() {       // 클릭할 
+  $("#addBtn").click(function() {       // 클릭할 때 실행되는 경우
     $.ajax({
       url: 'http://localhost/insert',
       type: "POST",
