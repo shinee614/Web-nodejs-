@@ -2,3 +2,8 @@ var express = require('express');
 var http = require('http');
 var app = express();
 var server = http.createServer(app).listen(80);
+
+app.get('/newsListPage', function(req, res) {
+  // res.send("success")       //string 출력
+  res.sendfile("newsList.html");   //파일 출력
+});
