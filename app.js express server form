@@ -3,7 +3,16 @@ var http = require('http');
 var app = express();
 var server = http.createServer(app).listen(80);
 
+
+//get 방식
 app.get('/newsListPage', function(req, res) {
   // res.send("success")       //string 출력
   res.sendfile("newsList.html");   //파일 출력
+});
+
+//post 방식
+app.post('/newsListPage', function(req, res) {
+  // res.send("success")       //string 출력
+  res.sendfile("newsList.html");   //파일 출력
+  console.log(req.body.a, req.body.b)
 });
