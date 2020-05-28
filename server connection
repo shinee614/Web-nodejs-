@@ -1,0 +1,11 @@
+1. mysql DB
+
+var mysql = require('mysql')
+
+var connection = mysql.createConnection({
+  host: 'localhost',
+  port: 3307,
+  user: 'root',  //user name
+  password: 'root', //비밀번호
+  database: 'test' //데이터베이스
+});
