@@ -20,17 +20,19 @@
 
 //post 방식
 <script>
-      $.ajax({
-        url:'http://localhost/sum',
-        type:'POST',
-        data: {
-          a:1,
-          b:2
-        },
-        success:function(response){
-          console.log(response);
-            $("#outputArea").html(response)   //body에서 <span> 부분에 화면 뿌릴 때 
-         // -> <span id="outputArea"> 부분    // .html()은 새로고침할 때마다 변경 됨
-        }                                     // .append()는 내용이 추가되고 다 쌓여서 보여짐
-      });
+  $("#addBtn").click(function() {
+    $.ajax({
+      url: 'http://localhost/insert',
+      type: "POST",
+      data: {
+        title: $("#titleInput").val(),
+        content: $("#contentInput").val()
+      },
+      success: function(response) {
+        console.log(response);
+        $("#outputArea").html(response);
+      }
+
+    });
+  });
 </script>
