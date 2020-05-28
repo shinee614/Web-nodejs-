@@ -1,0 +1,12 @@
+var query = `select * from news`
+var query = ``
+var query = ``
+  //console.log(query);
+  connection.query(query,
+    function(err, rows, fields) {
+
+      // 에러가 있으면 여기로 빠짐
+      if (err) throw err;
+      
+      // 쿼리 결과 가져온거
+      res.send(rows);
