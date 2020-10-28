@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<style media="screen">
+  body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+  color:
+}
+
+#chat-messages {
+  min-height: 10vh;
+  height: 60vh;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.passwords {
+  height: 75px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#chatRow {
+  width: 50%;
+  float: left;
+}
+#chatInput {
+  width: 62%;
+}
+#exitButton {
+  width: 100px;
+  left: 20px;
+  margin-bottom: 20px;
+}
+
+#infoTitle {
+  font-size: 22px;
+}
+#info{
+  font-size: 18px;
+}
+#info ul li{
+  font-size: 16px;
+}
+</style>
+  <meta charset="UTF-8" />
+  <title>Simple Chat</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <!-- <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/emojione/2.2.6/assets/css/emojione.min.css"
+    /> -->
+
+</head>
+
+<body>
+  <div id="loginArea">
+    <input type="text" id="loginId">
+    <input type="button" id="loginBtn" value="접속">
+  </div>
+    <div id="main" style="display:none;">
+      <div class="row" id="chatRow">
+        <div class="col s12">
+          <div class="card horizontal">
+            <div id="chat-messages" class="card-content" v-html="chatContent"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row" v-if="joined">
+        <div id="chatInput">
+          <div class="input-field col s8" >
+            <input type="text" v-model="newMsg" @keyup.enter="send" id="sendMsg" />
+          </div>
+          <div class="input-field col s4">
+            <button class="waves-effect waves-light btn" id="sendBtn">
+              <i class="material-icons right">chat</i>
+              Send
+            </button>
+          </div>
+        </div>
+        <div id="infoTitle">
+          INFO:
+          <div id="info">
+            Client info:
+            <ul>
+              <li id="clientID"></li>
+              <li id="roomID"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+
+<script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+    integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+
+$("#loginBtn").click(function(){
+  $("#loginArea").css("display", "none");
+  $("#main").css("display","block");
+
+  socket.emit('joinChatRoom', $("#loginId").val());
+   $("#chat-messages").append(`${$("#loginId").val()}님이 입장하셨습니다.`);
+
+});
+
+var socket = io();
+
+$("#sendBtn").click(function(){
+  var sendMsg = $("#sendMsg").val();
+  $("#chat-messages").append(`<br>${$("#loginId").val()} : ${sendMsg}`);
+    $("#sendMsg").val('');
+
+  socket.emit('test', sendMsg);
+  });
+
+  socket.on('newUserConnected', function(param){
+    console.log(param.loginId);
+    $("#chat-messages").append(`<br>===${param.loginId}님이 입장하셨습니다===<br>`);
+  });
+  socket.on('UserDisconnected', function(param){
+    console.log(param.loginId);
+    $("#chat-messages").append(`<br>===${param.loginId}님이 퇴장하셨습니다===<br>`);
+  });
+
+
+</script>
+
+
+</html>
