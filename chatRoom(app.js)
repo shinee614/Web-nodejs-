@@ -1,0 +1,48 @@
+var express = require('express');
+var http = require('http');
+var app = express();
+var request = require('request');
+var server = http.createServer(app).listen(82);
+var io = require('socket.io').listen(server);
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
+app.use(bodyParser.json({limit: '50mb'}));
+
+var joinedUsers= [];
+
+io.on('connection', function(socket){
+  socket.on('test', function(msg){
+    console.log(msg);
+  });
+
+  socket.on('joinChatRoom', function(loginId){
+    //console.log(loginId, socket.id);
+      socket.join("cr");
+      joinedUsers.push({loginId: loginId, socketId: socket.id});
+      //console.log(joinedUsers);
+      socket.broadcast.to("cr").emit('newUserConnected', {loginId:loginId});
+  });
+
+  socket.on('disconnect', function(){
+    for(var i = 0; i < joinedUsers.length; i++){
+      if(joinedUsers[i].socketId == socket.id){
+        joinedUsers.splice(i,1);
+        break;
+      }
+    }
+    console.log(joinedUsers);
+  });
+});
+
+
+app.get('/', (req,res) => {
+  res.sendfile('template.html');
+});
+
+app.get('/chat', (req, res)=> {
+  res.sendfile('template.html');
+});
+
+app.get('/main', (req, res)=> {
+  res.sendfile('template.html');
+});
